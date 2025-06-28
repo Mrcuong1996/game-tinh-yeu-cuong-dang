@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KANGDANGSUYY</title>
+  <title>Cường Đặng</title>
   <style>
     body {
       margin: 0;
@@ -15,6 +15,7 @@
       justify-content: center;
       height: 100vh;
       overflow: hidden;
+      position: relative;
     }
     h1 {
       color: #d6336c;
@@ -49,19 +50,54 @@
       margin-top: 30px;
       text-align: center;
     }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: float 4s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
     audio {
       display: none;
     }
   </style>
 </head>
 <body>
-  <h1>Em có yêu anh không? 🥺<br><span style="color:#6f42c1">(ANH HỎI)</span></h1>
+  <h1>Em có yêu anh không? 🥺<br><span style="color:#6f42c1">ANH HỎI</span></h1>
   <div class="buttons">
     <button id="yes">Có 🥰</button>
     <button id="no">Không 😤</button>
   </div>
   <div id="message">
-    Anh biết ngay mà! 🥳<br>Đã nghiện còn ngại :))))
+    Anh biết ngay mà! 🥳<br>ĐÃ NGHIỆN CÒN NGẠI :)))))
   </div>
   <audio id="music" loop>
     <source src="AmThamBenEm-SonTungMTP-4066476.mp3" type="audio/mpeg">
@@ -101,7 +137,26 @@
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
       music.play();
+      createHearts();
     });
+
+    function createHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.backgroundColor = randomColor();
+        document.body.appendChild(heart);
+        setTimeout(() => {
+          heart.remove();
+        }, 4000);
+      }, 300);
+    }
+
+    function randomColor() {
+      const colors = ['#ff6b81', '#ffb6c1', '#ffc0cb', '#ff69b4', '#ff1493'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
   </script>
 </body>
 </html>
