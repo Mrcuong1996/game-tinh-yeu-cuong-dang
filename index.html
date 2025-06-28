@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Game Tình Yêu - Cường Đặng</title>
+  <title>KANGDANGSUYY</title>
   <style>
     body {
       margin: 0;
@@ -56,29 +55,45 @@
   </style>
 </head>
 <body>
-  <h1>Em có yêu anh không? 🥺<br><span style="color:#6f42c1">(Cường Đặng hỏi nè!)</span></h1>
+  <h1>Em có yêu anh không? 🥺<br><span style="color:#6f42c1">(ANH HỎI)</span></h1>
   <div class="buttons">
     <button id="yes">Có 🥰</button>
     <button id="no">Không 😤</button>
   </div>
   <div id="message">
-    Anh biết ngay mà! 🥳<br>Yêu Cường Đặng mãi mãi nhé!
+    Anh biết ngay mà! 🥳<br>Đã nghiện còn ngại :))))
   </div>
   <audio id="music" loop>
     <source src="AmThamBenEm-SonTungMTP-4066476.mp3" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ âm thanh.
   </audio>
+
   <script>
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
     const message = document.getElementById("message");
     const music = document.getElementById("music");
 
+    const noTexts = [
+      "Không 😤",
+      "Không 😒",
+      "Đéo 😑",
+      "Có cl 😏",
+      "Đéo 😑",
+      "Phiền vl 😠"
+    ];
+    let hoverCount = 0;
+
     noBtn.addEventListener("mouseover", () => {
       const i = Math.floor(Math.random() * (window.innerWidth - 100));
       const j = Math.floor(Math.random() * (window.innerHeight - 50));
       noBtn.style.left = i + "px";
       noBtn.style.top = j + "px";
+
+      if (hoverCount < noTexts.length) {
+        noBtn.textContent = noTexts[hoverCount];
+        hoverCount++;
+      }
     });
 
     yesBtn.addEventListener("click", () => {
