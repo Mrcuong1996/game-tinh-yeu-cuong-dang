@@ -103,8 +103,7 @@
     <source src="AmThamBenEm-SonTungMTP-4066476.mp3" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ âm thanh.
   </audio>
-
-  <script>
+<script>
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
   const message = document.getElementById("message");
@@ -118,28 +117,20 @@
     "Đéo 😑",
     "Phiền vl 😠"
   ];
-  let hoverCount = 0;
+  let clickCount = 0;
 
-  function moveNoButton() {
+  function moveAndChangeNo() {
     const i = Math.floor(Math.random() * (window.innerWidth - 100));
     const j = Math.floor(Math.random() * (window.innerHeight - 50));
     noBtn.style.left = i + "px";
     noBtn.style.top = j + "px";
-
-    if (hoverCount < noTexts.length) {
-      noBtn.textContent = noTexts[hoverCount];
-      hoverCount++;
+    if (clickCount < noTexts.length) {
+      noBtn.textContent = noTexts[clickCount];
+      clickCount++;
     }
   }
 
-  // PC: mouseover
-  noBtn.addEventListener("mouseover", moveNoButton);
-
-  // Mobile: touchstart
-  noBtn.addEventListener("touchstart", function(e) {
-    e.preventDefault(); // Ngăn hành vi mặc định
-    moveNoButton();
-  });
+  noBtn.addEventListener("click", moveAndChangeNo);
 
   yesBtn.addEventListener("click", () => {
     message.style.display = "block";
@@ -156,9 +147,7 @@
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.backgroundColor = randomColor();
       document.body.appendChild(heart);
-      setTimeout(() => {
-        heart.remove();
-      }, 4000);
+      setTimeout(() => heart.remove(), 4000);
     }, 300);
   }
 
