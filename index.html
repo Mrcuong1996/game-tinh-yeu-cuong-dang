@@ -105,58 +105,67 @@
   </audio>
 
   <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const message = document.getElementById("message");
-    const music = document.getElementById("music");
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const message = document.getElementById("message");
+  const music = document.getElementById("music");
 
-    const noTexts = [
-      "Không 😤",
-      "Không 😒",
-      "Đéo 😑",
-      "Có cl 😏",
-      "Đéo 😑",
-      "Phiền vl 😠"
-    ];
-    let hoverCount = 0;
+  const noTexts = [
+    "Không 😤",
+    "Không 😒",
+    "Đéo 😑",
+    "Có cl 😏",
+    "Đéo 😑",
+    "Phiền vl 😠"
+  ];
+  let hoverCount = 0;
 
-    noBtn.addEventListener("mouseover", () => {
-      const i = Math.floor(Math.random() * (window.innerWidth - 100));
-      const j = Math.floor(Math.random() * (window.innerHeight - 50));
-      noBtn.style.left = i + "px";
-      noBtn.style.top = j + "px";
+  function moveNoButton() {
+    const i = Math.floor(Math.random() * (window.innerWidth - 100));
+    const j = Math.floor(Math.random() * (window.innerHeight - 50));
+    noBtn.style.left = i + "px";
+    noBtn.style.top = j + "px";
 
-      if (hoverCount < noTexts.length) {
-        noBtn.textContent = noTexts[hoverCount];
-        hoverCount++;
-      }
-    });
-
-    yesBtn.addEventListener("click", () => {
-      message.style.display = "block";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      music.play();
-      createHearts();
-    });
-
-    function createHearts() {
-      setInterval(() => {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.backgroundColor = randomColor();
-        document.body.appendChild(heart);
-        setTimeout(() => {
-          heart.remove();
-        }, 4000);
-      }, 300);
+    if (hoverCount < noTexts.length) {
+      noBtn.textContent = noTexts[hoverCount];
+      hoverCount++;
     }
+  }
 
-    function randomColor() {
-      const colors = ['#ff6b81', '#ffb6c1', '#ffc0cb', '#ff69b4', '#ff1493'];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-  </script>
+  // PC: mouseover
+  noBtn.addEventListener("mouseover", moveNoButton);
+
+  // Mobile: touchstart
+  noBtn.addEventListener("touchstart", function(e) {
+    e.preventDefault(); // Ngăn hành vi mặc định
+    moveNoButton();
+  });
+
+  yesBtn.addEventListener("click", () => {
+    message.style.display = "block";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    music.play();
+    createHearts();
+  });
+
+  function createHearts() {
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.backgroundColor = randomColor();
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }, 300);
+  }
+
+  function randomColor() {
+    const colors = ['#ff6b81', '#ffb6c1', '#ffc0cb', '#ff69b4', '#ff1493'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+</script>
 </body>
 </html>
