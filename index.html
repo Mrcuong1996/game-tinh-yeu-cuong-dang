@@ -46,16 +46,8 @@ button{
   cursor:pointer;
 }
 
-#yes{
-  background:#ff2e63;
-  color:white;
-}
-
-#no{
-  background:#333;
-  color:white;
-  position:absolute;
-}
+#yes{ background:#ff2e63; color:white; }
+#no{ background:#333; color:white; position:absolute; }
 
 #message{
   display:none;
@@ -66,7 +58,8 @@ button{
   z-index:10;
 }
 
-/* TIM */
+/* ================= TIM ================= */
+
 .heart{
   position:absolute;
   width:130px;
@@ -75,9 +68,9 @@ button{
   transform:rotate(-45deg);
   animation:float 10s linear forwards;
   overflow:hidden;
-  box-shadow:0 0 25px rgba(255,0,100,0.6);
 }
 
+/* tạo hình tim */
 .heart::before,
 .heart::after{
   content:"";
@@ -91,39 +84,47 @@ button{
 .heart::before{ top:-65px; left:0; }
 .heart::after{ left:65px; top:0; }
 
-/* ẢNH + VIDEO */
+/* CLIP TIM CHUẨN (QUAN TRỌNG NHẤT) */
 .heart img,
 .heart video{
   position:absolute;
-  width:90%;
-  height:90%;
-  top:5%;
-  left:5%;
+  width:100%;
+  height:100%;
   object-fit:cover;
-  border-radius:50%;
-  transform:rotate(45deg);
-  border:4px solid white;
-  background:white;
+
+  clip-path: path("M65 120
+  C20 90, 0 60, 20 35
+  C40 10, 65 25, 65 25
+  C65 25, 90 10, 110 35
+  C130 60, 110 90, 65 120Z");
+
+  -webkit-clip-path: path("M65 120
+  C20 90, 0 60, 20 35
+  C40 10, 65 25, 65 25
+  C65 25, 90 10, 110 35
+  C130 60, 110 90, 65 120Z");
 }
 
 /* BAY */
 @keyframes float{
   0%{
-    transform:translateY(0) rotate(-45deg) scale(.6);
+    transform:translateY(0) rotate(-45deg) scale(.5);
     opacity:0;
   }
-  10%{
-    opacity:1;
-  }
+  10%{ opacity:1; }
   100%{
     transform:translateY(-120vh) rotate(-45deg) scale(1.2);
     opacity:0;
   }
 }
 
-audio{
-  display:none;
+/* QUAN TRỌNG CHO MOBILE VIDEO */
+video{
+  object-fit:cover;
+  playsinline: true;
 }
+
+audio{ display:none; }
 
 </style>
 </head>
@@ -146,7 +147,7 @@ EM CÓ YÊU ANH KHÔNG?
 </div>
 
 <audio id="music" loop>
-  <source src="song.mp3" type="audio/mpeg">
+  <source src="song.mp3">
 </audio>
 
 <script>
@@ -159,40 +160,20 @@ const music = document.getElementById("music");
 const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
 const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
 
-const noTexts = [
-  "Không 😤",
-  "Không 😒",
-  "Em còn học 😑",
-  "K anh 😏",
-  "Đéo 😑",
-  "Phiền vl 😠"
-];
-
-let count = 0;
-
 /* NÚT KHÔNG */
 noBtn.addEventListener("mouseover", () => {
-
-  noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
-  noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
-
-  if(count < noTexts.length){
-    noBtn.innerText = noTexts[count];
-    count++;
-  }
-
+  noBtn.style.left = Math.random()*80 + "vw";
+  noBtn.style.top = Math.random()*80 + "vh";
 });
 
 /* NHẤN CÓ */
 yesBtn.addEventListener("click", () => {
-
   message.style.display = "block";
   yesBtn.style.display = "none";
   noBtn.style.display = "none";
 
   music.play();
   createHearts();
-
 });
 
 /* TIM BAY */
@@ -203,7 +184,7 @@ function createHearts(){
     const heart = document.createElement("div");
     heart.classList.add("heart");
 
-    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.left = Math.random()*100 + "vw";
     heart.style.bottom = "-150px";
 
     const isVideo = Math.random() > 0.5;
@@ -211,20 +192,21 @@ function createHearts(){
     if(isVideo){
 
       const video = document.createElement("video");
-      video.src = videos[Math.floor(Math.random() * videos.length)];
+
+      video.src = videos[Math.floor(Math.random()*videos.length)];
       video.autoplay = true;
       video.loop = true;
       video.muted = true;
       video.volume = 0;
       video.playsInline = true;
+      video.setAttribute("playsinline", "");
 
       heart.appendChild(video);
 
     } else {
 
       const img = document.createElement("img");
-      img.src = images[Math.floor(Math.random() * images.length)];
-
+      img.src = images[Math.floor(Math.random()*images.length)];
       heart.appendChild(img);
     }
 
@@ -232,7 +214,7 @@ function createHearts(){
 
     setTimeout(() => heart.remove(), 10000);
 
-  }, 600); /* chạy chậm hơn */
+  }, 700);
 
 }
 
