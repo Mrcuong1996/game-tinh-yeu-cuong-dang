@@ -1,162 +1,235 @@
-.<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cường Đặng</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #ffe6ec;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOVE 💖</title>
+
+<style>
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+  }
+
+  body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd6e7,#fff0f5);
+    font-family:Segoe UI,sans-serif;
+    position:relative;
+  }
+
+  h1{
+    text-align:center;
+    color:#ff2e63;
+    font-size:2.3rem;
+    z-index:10;
+  }
+
+  .buttons{
+    margin-top:20px;
+    z-index:10;
+  }
+
+  button{
+    padding:14px 28px;
+    border:none;
+    border-radius:12px;
+    font-size:1.1rem;
+    margin:10px;
+    cursor:pointer;
+  }
+
+  #yes{
+    background:#ff2e63;
+    color:white;
+  }
+
+  #no{
+    background:#333;
+    color:white;
+    position:absolute;
+  }
+
+  #message{
+    display:none;
+    margin-top:25px;
+    font-size:2rem;
+    color:#6f42c1;
+    text-align:center;
+    z-index:10;
+  }
+
+  /* TIM */
+  .heart{
+    position:absolute;
+    width:130px;
+    height:130px;
+    background:red;
+    transform:rotate(-45deg);
+    animation:float 6s linear forwards;
+    overflow:hidden;
+    box-shadow:0 0 20px rgba(255,0,100,0.6);
+  }
+
+  .heart::before,
+  .heart::after{
+    content:"";
+    position:absolute;
+    width:130px;
+    height:130px;
+    background:red;
+    border-radius:50%;
+  }
+
+  .heart::before{ top:-65px; left:0; }
+  .heart::after{ left:65px; top:0; }
+
+  .heart img,
+  .heart video{
+    position:absolute;
+    width:85%;
+    height:85%;
+    top:8%;
+    left:8%;
+    object-fit:cover;
+    border-radius:50%;
+    transform:rotate(45deg);
+    border:3px solid white;
+  }
+
+  @keyframes float{
+    0%{
+      transform:translateY(0) rotate(-45deg) scale(.5);
+      opacity:0;
     }
-    h1 {
-      color: #d6336c;
-      font-size: 2.5rem;
-      text-align: center;
+    20%{ opacity:1; }
+    100%{
+      transform:translateY(-120vh) rotate(-45deg) scale(1.2);
+      opacity:0;
     }
-    .buttons {
-      margin-top: 20px;
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 1.2rem;
-      margin: 10px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    #yes {
-      background-color: #28a745;
-      color: white;
-    }
-    #no {
-      background-color: #dc3545;
-      color: white;
-      position: absolute;
-    }
-    #message {
-      display: none;
-      font-size: 1.5rem;
-      color: #6f42c1;
-      margin-top: 30px;
-      text-align: center;
-    }
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: pink;
-      transform: rotate(45deg);
-      animation: float 4s linear infinite;
-    }
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: pink;
-      border-radius: 50%;
-    }
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
-    .heart::after {
-      left: -10px;
-      top: 0;
-    }
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(45deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(45deg);
-        opacity: 0;
-      }
-    }
-    audio {
-      display: none;
-    }
-  </style>
+  }
+
+  audio{
+    display:none;
+  }
+</style>
 </head>
+
 <body>
-  <h1>ANH HỎI THẬT LÒNG NHÉ!<br><span style="color:#6f42c1">EM CÓ YÊU ANH KHÔNG? 🥺</span></h1>
-  <div class="buttons">
-    <button id="yes">CÓ Ạ 🥰</button>
-    <button id="no">Không 😤</button>
-  </div>
-  <div id="message">
-    Anh biết ngay mà! 🥳<br>ĐÃ NGHIỆN CÒN NGẠI :)))))
-    <br>
-    ANH YÊU EM NHIỀU LẮM 🥰
-  </div>
-  <audio id="music" loop>
-    <source src="AmThamBenEm-SonTungMTP-4066476.mp3" type="audio/mpeg">
-    Trình duyệt của bạn không hỗ trợ âm thanh.
-  </audio>
+
+<h1>
+ANH HỎI THẬT LÒNG 🥺<br>
+EM CÓ YÊU ANH KHÔNG?
+</h1>
+
+<div class="buttons">
+  <button id="yes">CÓ Ạ 🥰</button>
+  <button id="no">Không 😤</button>
+</div>
+
+<div id="message">
+  Anh biết ngay mà 💖<br>
+  YÊU EM NHIỀU LẮM
+</div>
+
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-  const noBtn = document.getElementById("no");
-  const yesBtn = document.getElementById("yes");
-  const message = document.getElementById("message");
-  const music = document.getElementById("music");
 
-  const noTexts = [
-    "Không 😤",
-    "Không 😒",
-    "em còn học 😑",
-    "k anh 😏",
-    "Đéo 😑",
-    "Phiền vl 😠"
-  ];
-  let clickCount = 0;
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const message = document.getElementById("message");
+const music = document.getElementById("music");
 
-  function moveAndChangeNo() {
-    const i = Math.floor(Math.random() * (window.innerWidth - 100));
-    const j = Math.floor(Math.random() * (window.innerHeight - 50));
-    noBtn.style.left = i + "px";
-    noBtn.style.top = j + "px";
-    if (clickCount < noTexts.length) {
-      noBtn.textContent = noTexts[clickCount];
-      clickCount++;
+const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
+const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
+
+const noTexts = [
+  "Không 😤",
+  "Không 😒",
+  "Em còn học 😑",
+  "K anh 😏",
+  "Đéo 😑",
+  "Phiền vl 😠"
+];
+
+let count = 0;
+
+/* NÚT KHÔNG */
+noBtn.addEventListener("mouseover", () => {
+
+  noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
+
+  if(count < noTexts.length){
+    noBtn.innerText = noTexts[count];
+    count++;
+  }
+
+});
+
+/* NHẤN CÓ */
+yesBtn.addEventListener("click", () => {
+
+  message.style.display = "block";
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+
+  music.play();
+
+  createHearts();
+
+});
+
+/* TIM BAY */
+function createHearts(){
+
+  setInterval(() => {
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.bottom = "-150px";
+
+    const isVideo = Math.random() > 0.5;
+
+    if(isVideo){
+
+      const video = document.createElement("video");
+      video.src = videos[Math.floor(Math.random() * videos.length)];
+      video.autoplay = true;
+      video.loop = true;
+      video.muted = true;
+      video.playsInline = true;
+
+      heart.appendChild(video);
+
+    } else {
+
+      const img = document.createElement("img");
+      img.src = images[Math.floor(Math.random() * images.length)];
+
+      heart.appendChild(img);
     }
-  }
 
-  noBtn.addEventListener("click", moveAndChangeNo);
+    document.body.appendChild(heart);
 
-  yesBtn.addEventListener("click", () => {
-    message.style.display = "block";
-    yesBtn.style.display = "none";
-    noBtn.style.display = "none";
-    music.play();
-    createHearts();
-  });
+    setTimeout(() => heart.remove(), 6000);
 
-  function createHearts() {
-    setInterval(() => {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.backgroundColor = randomColor();
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 4000);
-    }, 300);
-  }
+  }, 400);
 
-  function randomColor() {
-    const colors = ['#ff6b81', '#ffb6c1', '#ffc0cb', '#ff69b4', '#ff1493'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
+}
+
 </script>
+
 </body>
 </html>
