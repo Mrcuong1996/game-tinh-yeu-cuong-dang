@@ -3,68 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOVE 💖</title>
+<title>LOVE PRO 💖</title>
 
 <style>
 
-body{
+*{
   margin:0;
-  height:100vh;
-  overflow:hidden;
-  background:linear-gradient(135deg,#ffd6e7,#fff0f5);
-  font-family:sans-serif;
+  padding:0;
+  box-sizing:border-box;
 }
 
+body{
+  height:100vh;
+  overflow:hidden;
+  font-family:sans-serif;
+  background: radial-gradient(circle at top,#1a0023,#000);
+  color:white;
+}
+
+/* TITLE */
 h1{
   text-align:center;
-  color:#ff2e63;
   margin-top:20px;
+  color:#ff4d88;
+  text-shadow:0 0 10px #ff4d88;
+}
+
+/* BUTTONS */
+.buttons{
+  text-align:center;
+  margin-top:20px;
+  position:relative;
+  z-index:10;
 }
 
 button{
-  padding:12px 24px;
-  margin:10px;
+  padding:14px 28px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
+  font-size:1.1rem;
+  margin:10px;
 }
 
 #yes{background:#ff2e63;color:white;}
 #no{background:#333;color:white;position:absolute;}
 
+/* MESSAGE */
 #message{
   display:none;
   text-align:center;
-  font-size:24px;
-  color:#6f42c1;
+  font-size:2rem;
+  margin-top:20px;
+  color:#ff9bd2;
+  text-shadow:0 0 10px #ff4d88;
 }
 
-/* TIM */
+/* ================= HEART ================= */
+
 .heart{
   position:absolute;
-  width:140px;
-  height:140px;
+  width:150px;
+  height:150px;
   animation:float 10s linear forwards;
+  filter:drop-shadow(0 0 10px #ff4d88);
+}
+
+/* SVG heart clip */
+.heart svg{
+  width:100%;
+  height:100%;
 }
 
 @keyframes float{
-  0%{transform:translateY(0);opacity:0;}
+  0%{transform:translateY(0) scale(.4);opacity:0;}
   10%{opacity:1;}
-  100%{transform:translateY(-120vh);opacity:0;}
+  100%{transform:translateY(-120vh) scale(1.2);opacity:0;}
 }
 
-/* TIM NHỎ */
+/* SMALL HEART RAIN */
 .rain{
   position:absolute;
-  width:12px;
-  height:12px;
+  width:10px;
+  height:10px;
   background:#ff69b4;
-  clip-path:path("M6 0 C2 0,0 2,0 6 C0 10,6 12,6 12 C6 12,12 10,12 6 C12 2,10 0,6 0 Z");
+  clip-path:polygon(50% 0%,100% 35%,80% 100%,50% 75%,20% 100%,0% 35%);
   animation:fall 6s linear forwards;
 }
 
 @keyframes fall{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(120vh);}
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(120vh);opacity:0;}
+}
+
+/* STAR BACKGROUND */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  opacity:0.6;
+  animation:blink 2s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:0.2;}
+  50%{opacity:1;}
 }
 
 </style>
@@ -74,12 +117,12 @@ button{
 
 <h1>ANH HỎI THẬT LÒNG 🥺 EM CÓ YÊU ANH KHÔNG?</h1>
 
-<div style="text-align:center;">
+<div class="buttons">
   <button id="yes">CÓ Ạ 🥰</button>
   <button id="no">Không 😤</button>
 </div>
 
-<div id="message">YÊU EM NHIỀU LẮM 💖</div>
+<div id="message">💖 ANH YÊU EM NHIỀU LẮM 💖</div>
 
 <audio id="music" loop>
   <source src="song.mp3">
@@ -95,13 +138,19 @@ const music = document.getElementById("music");
 const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
 const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
 
-/* nút chạy */
+const noText = ["Không 😤","Thật không?","Nghĩ lại đi 😏","Không được đâu"];
+
+let i = 0;
+
+/* NO BUTTON RUN */
 no.onmouseover = () => {
   no.style.left = Math.random()*80 + "vw";
   no.style.top = Math.random()*80 + "vh";
+  no.innerText = noText[i % noText.length];
+  i++;
 };
 
-/* bấm yes */
+/* YES CLICK */
 yes.onclick = () => {
   msg.style.display = "block";
   yes.style.display = "none";
@@ -109,58 +158,94 @@ yes.onclick = () => {
 
   music.play();
 
-  setInterval(createHeart, 600);
-  setInterval(rainHeart, 200);
+  createHearts();
+  rainHearts();
+  stars();
+  boomText();
 };
 
-/* SVG TIM CHUẨN */
-function createHeart(){
+/* HEART PRO */
+function createHearts(){
 
-  const div = document.createElement("div");
-  div.className = "heart";
-  div.style.left = Math.random()*100 + "vw";
-  div.style.bottom = "-150px";
+  setInterval(() => {
 
-  const isVideo = Math.random() > 0.5;
+    const heart = document.createElement("div");
+    heart.className = "heart";
 
-  div.innerHTML = `
-  <svg viewBox="0 0 200 200" width="140" height="140">
-    <defs>
-      <clipPath id="clip">
-        <path d="M100 180 C20 120, 0 60, 50 30 C80 10,100 40,100 40 C100 40,120 10,150 30 C200 60,180 120,100 180 Z"/>
-      </clipPath>
-    </defs>
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.bottom = "-150px";
 
-    ${
-      isVideo
-      ? `<foreignObject width="200" height="200" clip-path="url(#clip)">
-          <video src="${videos[Math.floor(Math.random()*videos.length)]}"
-          autoplay loop muted playsinline
-          style="width:100%;height:100%;object-fit:cover;"></video>
-        </foreignObject>`
-      : `<foreignObject width="200" height="200" clip-path="url(#clip)">
-          <img src="${images[Math.floor(Math.random()*images.length)]}"
-          style="width:100%;height:100%;object-fit:cover;">
-        </foreignObject>`
-    }
+    const isVideo = Math.random() > 0.5;
 
-  </svg>
-  `;
+    const media = document.createElement(isVideo ? "video" : "img");
 
-  document.body.appendChild(div);
+    media.src = isVideo
+      ? videos[Math.floor(Math.random()*videos.length)]
+      : images[Math.floor(Math.random()*images.length)];
 
-  setTimeout(()=>div.remove(),10000);
+    media.autoplay = true;
+    media.loop = true;
+    media.muted = true;
+    media.playsInline = true;
+
+    media.style.width = "100%";
+    media.style.height = "100%";
+    media.style.objectFit = "cover";
+
+    heart.appendChild(media);
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),10000);
+
+  },500);
 }
 
-/* mưa tim */
-function rainHeart(){
+/* RAIN HEART */
+function rainHearts(){
 
-  const r = document.createElement("div");
-  r.className = "rain";
-  r.style.left = Math.random()*100 + "vw";
-  document.body.appendChild(r);
+  setInterval(() => {
+    const r = document.createElement("div");
+    r.className = "rain";
+    r.style.left = Math.random()*100 + "vw";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),6000);
+  },150);
 
-  setTimeout(()=>r.remove(),6000);
+}
+
+/* STAR */
+function stars(){
+
+  for(let i=0;i<80;i++){
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.left = Math.random()*100 + "vw";
+    s.style.top = Math.random()*100 + "vh";
+    document.body.appendChild(s);
+  }
+}
+
+/* BOOM TEXT */
+function boomText(){
+
+  setInterval(() => {
+
+    const t = document.createElement("div");
+    t.innerText = "💖 I LOVE YOU 💖";
+
+    t.style.position = "absolute";
+    t.style.left = Math.random()*100 + "vw";
+    t.style.top = Math.random()*100 + "vh";
+    t.style.fontSize = "20px";
+    t.style.color = "#ff4d88";
+    t.style.textShadow = "0 0 10px pink";
+
+    document.body.appendChild(t);
+
+    setTimeout(()=>t.remove(),3000);
+
+  },800);
+
 }
 
 </script>
