@@ -25,6 +25,7 @@ body{
   position:relative;
 }
 
+/* TEXT */
 h1{
   text-align:center;
   color:#ff2e63;
@@ -45,16 +46,8 @@ button{
   margin:10px;
 }
 
-#yes{
-  background:#ff2e63;
-  color:white;
-}
-
-#no{
-  background:#333;
-  color:white;
-  position:absolute;
-}
+#yes{background:#ff2e63;color:white;}
+#no{background:#333;color:white;position:absolute;}
 
 #message{
   display:none;
@@ -65,52 +58,74 @@ button{
   text-align:center;
 }
 
-/* ================= TIM CHUẨN ================= */
+/* ================= TIM ================= */
 
 .heart{
   position:absolute;
   width:120px;
   height:120px;
-  background:red;
+  background:#ff2d55;
   transform:rotate(-45deg);
   animation:float 10s linear forwards;
   overflow:hidden;
 }
 
-/* tạo tim */
+/* 2 nửa tim */
 .heart::before,
 .heart::after{
   content:"";
   position:absolute;
   width:120px;
   height:120px;
-  background:red;
+  background:#ff2d55;
   border-radius:50%;
 }
 
-.heart::before{
-  top:-60px;
-  left:0;
-}
+.heart::before{top:-60px;left:0;}
+.heart::after{left:60px;top:0;}
 
-.heart::after{
-  left:60px;
-  top:0;
-}
-
-/* ẢNH + VIDEO BÊN TRONG */
+/* MEDIA TRONG TIM (QUAN TRỌNG) */
 .heart img,
 .heart video{
   position:absolute;
   width:100%;
   height:100%;
   object-fit:cover;
-
-  /* bo tròn nhẹ để nhìn mềm hơn */
-  border-radius:30%;
+  transform:rotate(45deg);
 }
 
-/* BAY */
+/* ================= TIM MƯA NHỎ ================= */
+
+.rain-heart{
+  position:absolute;
+  top:-20px;
+  width:14px;
+  height:14px;
+  background:#ff69b4;
+  transform:rotate(45deg);
+  opacity:0.8;
+  animation:fall 6s linear forwards;
+}
+
+.rain-heart::before,
+.rain-heart::after{
+  content:"";
+  position:absolute;
+  width:14px;
+  height:14px;
+  background:#ff69b4;
+  border-radius:50%;
+}
+
+.rain-heart::before{top:-7px;left:0;}
+.rain-heart::after{left:7px;top:0;}
+
+@keyframes fall{
+  0%{transform:translateY(0) rotate(45deg);opacity:1;}
+  100%{transform:translateY(120vh) rotate(45deg);opacity:0;}
+}
+
+/* TIM BAY */
 @keyframes float{
   0%{
     transform:translateY(0) rotate(-45deg) scale(.5);
@@ -159,23 +174,25 @@ const music = document.getElementById("music");
 const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
 const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
 
-/* nút không chạy */
+/* NÚT KHÔNG CHẠY */
 noBtn.addEventListener("mouseover", () => {
   noBtn.style.left = Math.random()*80 + "vw";
   noBtn.style.top = Math.random()*80 + "vh";
 });
 
-/* bấm có */
+/* NHẤN CÓ */
 yesBtn.addEventListener("click", () => {
   message.style.display = "block";
   yesBtn.style.display = "none";
   noBtn.style.display = "none";
 
   music.play();
+
   createHearts();
+  rainHearts();
 });
 
-/* tim bay */
+/* TIM LỚN BAY */
 function createHearts(){
 
   setInterval(() => {
@@ -189,29 +206,40 @@ function createHearts(){
     const isVideo = Math.random() > 0.5;
 
     if(isVideo){
-
       const video = document.createElement("video");
       video.src = videos[Math.floor(Math.random()*videos.length)];
       video.autoplay = true;
       video.loop = true;
       video.muted = true;
       video.playsInline = true;
-
       heart.appendChild(video);
-
     } else {
-
       const img = document.createElement("img");
       img.src = images[Math.floor(Math.random()*images.length)];
-
       heart.appendChild(img);
     }
 
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 10000);
 
   }, 700);
+}
+
+/* TIM MƯA NHỎ */
+function rainHearts(){
+
+  setInterval(() => {
+
+    const h = document.createElement("div");
+    h.classList.add("rain-heart");
+
+    h.style.left = Math.random()*100 + "vw";
+
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(), 6000);
+
+  }, 200);
 
 }
 
