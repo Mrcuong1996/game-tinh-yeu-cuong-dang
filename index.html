@@ -17,18 +17,18 @@ body{
   height:100vh;
   overflow:hidden;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
   background:linear-gradient(135deg,#ffd6e7,#fff0f5);
-  font-family:Segoe UI,sans-serif;
+  font-family:sans-serif;
   position:relative;
 }
 
 h1{
   text-align:center;
   color:#ff2e63;
-  font-size:2.3rem;
+  font-size:2.2rem;
   z-index:10;
 }
 
@@ -43,48 +43,62 @@ button{
   border-radius:12px;
   font-size:1.1rem;
   margin:10px;
-  cursor:pointer;
 }
 
-#yes{ background:#ff2e63; color:white; }
-#no{ background:#333; color:white; position:absolute; }
+#yes{
+  background:#ff2e63;
+  color:white;
+}
+
+#no{
+  background:#333;
+  color:white;
+  position:absolute;
+}
 
 #message{
   display:none;
-  margin-top:25px;
+  margin-top:20px;
   font-size:2rem;
   color:#6f42c1;
-  text-align:center;
   z-index:10;
+  text-align:center;
 }
 
-/* ================= TIM ================= */
+/* ================= TIM CHUẨN ================= */
 
 .heart{
   position:absolute;
-  width:130px;
-  height:130px;
+  width:120px;
+  height:120px;
   background:red;
   transform:rotate(-45deg);
   animation:float 10s linear forwards;
   overflow:hidden;
 }
 
-/* tạo hình tim */
+/* tạo tim */
 .heart::before,
 .heart::after{
   content:"";
   position:absolute;
-  width:130px;
-  height:130px;
+  width:120px;
+  height:120px;
   background:red;
   border-radius:50%;
 }
 
-.heart::before{ top:-65px; left:0; }
-.heart::after{ left:65px; top:0; }
+.heart::before{
+  top:-60px;
+  left:0;
+}
 
-/* CLIP TIM CHUẨN (QUAN TRỌNG NHẤT) */
+.heart::after{
+  left:60px;
+  top:0;
+}
+
+/* ẢNH + VIDEO BÊN TRONG */
 .heart img,
 .heart video{
   position:absolute;
@@ -92,17 +106,8 @@ button{
   height:100%;
   object-fit:cover;
 
-  clip-path: path("M65 120
-  C20 90, 0 60, 20 35
-  C40 10, 65 25, 65 25
-  C65 25, 90 10, 110 35
-  C130 60, 110 90, 65 120Z");
-
-  -webkit-clip-path: path("M65 120
-  C20 90, 0 60, 20 35
-  C40 10, 65 25, 65 25
-  C65 25, 90 10, 110 35
-  C130 60, 110 90, 65 120Z");
+  /* bo tròn nhẹ để nhìn mềm hơn */
+  border-radius:30%;
 }
 
 /* BAY */
@@ -111,20 +116,14 @@ button{
     transform:translateY(0) rotate(-45deg) scale(.5);
     opacity:0;
   }
-  10%{ opacity:1; }
+  10%{opacity:1;}
   100%{
     transform:translateY(-120vh) rotate(-45deg) scale(1.2);
     opacity:0;
   }
 }
 
-/* QUAN TRỌNG CHO MOBILE VIDEO */
-video{
-  object-fit:cover;
-  playsinline: true;
-}
-
-audio{ display:none; }
+audio{display:none;}
 
 </style>
 </head>
@@ -160,13 +159,13 @@ const music = document.getElementById("music");
 const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
 const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
 
-/* NÚT KHÔNG */
+/* nút không chạy */
 noBtn.addEventListener("mouseover", () => {
   noBtn.style.left = Math.random()*80 + "vw";
   noBtn.style.top = Math.random()*80 + "vh";
 });
 
-/* NHẤN CÓ */
+/* bấm có */
 yesBtn.addEventListener("click", () => {
   message.style.display = "block";
   yesBtn.style.display = "none";
@@ -176,7 +175,7 @@ yesBtn.addEventListener("click", () => {
   createHearts();
 });
 
-/* TIM BAY */
+/* tim bay */
 function createHearts(){
 
   setInterval(() => {
@@ -185,21 +184,18 @@ function createHearts(){
     heart.classList.add("heart");
 
     heart.style.left = Math.random()*100 + "vw";
-    heart.style.bottom = "-150px";
+    heart.style.bottom = "-120px";
 
     const isVideo = Math.random() > 0.5;
 
     if(isVideo){
 
       const video = document.createElement("video");
-
       video.src = videos[Math.floor(Math.random()*videos.length)];
       video.autoplay = true;
       video.loop = true;
       video.muted = true;
-      video.volume = 0;
       video.playsInline = true;
-      video.setAttribute("playsinline", "");
 
       heart.appendChild(video);
 
@@ -207,6 +203,7 @@ function createHearts(){
 
       const img = document.createElement("img");
       img.src = images[Math.floor(Math.random()*images.length)];
+
       heart.appendChild(img);
     }
 
