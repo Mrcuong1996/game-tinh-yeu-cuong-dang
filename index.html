@@ -7,42 +7,25 @@
 
 <style>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
+  margin:0;
   height:100vh;
   overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
   background:linear-gradient(135deg,#ffd6e7,#fff0f5);
   font-family:sans-serif;
-  position:relative;
 }
 
 h1{
   text-align:center;
   color:#ff2e63;
-  font-size:2.2rem;
-  z-index:10;
-}
-
-.buttons{
   margin-top:20px;
-  z-index:10;
 }
 
 button{
-  padding:14px 28px;
-  border:none;
-  border-radius:12px;
-  font-size:1.1rem;
+  padding:12px 24px;
   margin:10px;
+  border:none;
+  border-radius:10px;
 }
 
 #yes{background:#ff2e63;color:white;}
@@ -50,15 +33,12 @@ button{
 
 #message{
   display:none;
-  margin-top:20px;
-  font-size:2rem;
-  color:#6f42c1;
-  z-index:10;
   text-align:center;
+  font-size:24px;
+  color:#6f42c1;
 }
 
-/* ================= TIM LỚN ================= */
-
+/* TIM */
 .heart{
   position:absolute;
   width:140px;
@@ -66,79 +46,40 @@ button{
   animation:float 10s linear forwards;
 }
 
-/* hình trái tim SVG nền */
-.heart::before{
-  content:"";
-  position:absolute;
-  width:140px;
-  height:140px;
-  background:#ff2d55;
-  clip-path:path("M70 20 C50 0, 0 20, 20 60 C40 100, 70 120, 70 120 C70 120, 100 100, 120 60 C140 20, 90 0, 70 20 Z");
+@keyframes float{
+  0%{transform:translateY(0);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-120vh);opacity:0;}
 }
 
-/* MEDIA TRONG TIM */
-.heart img,
-.heart video{
+/* TIM NHỎ */
+.rain{
   position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-
-  clip-path:path("M70 20 C50 0, 0 20, 20 60 C40 100, 70 120, 70 120 C70 120, 100 100, 120 60 C140 20, 90 0, 70 20 Z");
-}
-
-/* ================= TIM NHỎ MƯA ================= */
-
-.rain-heart{
-  position:absolute;
-  top:-20px;
-  width:14px;
-  height:14px;
+  width:12px;
+  height:12px;
   background:#ff69b4;
-  clip-path:path("M7 0 C3 0, 0 3, 0 7 C0 11, 7 14, 7 14 C7 14, 14 11, 14 7 C14 3, 11 0, 7 0 Z");
+  clip-path:path("M6 0 C2 0,0 2,0 6 C0 10,6 12,6 12 C6 12,12 10,12 6 C12 2,10 0,6 0 Z");
   animation:fall 6s linear forwards;
-  opacity:0.8;
 }
 
 @keyframes fall{
-  0%{transform:translateY(0);opacity:1;}
-  100%{transform:translateY(120vh);opacity:0;}
+  0%{transform:translateY(0);}
+  100%{transform:translateY(120vh);}
 }
-
-/* BAY TIM */
-@keyframes float{
-  0%{
-    transform:translateY(0) scale(.5);
-    opacity:0;
-  }
-  10%{opacity:1;}
-  100%{
-    transform:translateY(-120vh) scale(1.2);
-    opacity:0;
-  }
-}
-
-audio{display:none;}
 
 </style>
 </head>
 
 <body>
 
-<h1>
-ANH HỎI THẬT LÒNG 🥺<br>
-EM CÓ YÊU ANH KHÔNG?
-</h1>
+<h1>ANH HỎI THẬT LÒNG 🥺 EM CÓ YÊU ANH KHÔNG?</h1>
 
-<div class="buttons">
+<div style="text-align:center;">
   <button id="yes">CÓ Ạ 🥰</button>
   <button id="no">Không 😤</button>
 </div>
 
-<div id="message">
-  Anh biết ngay mà 💖<br>
-  YÊU EM NHIỀU LẮM
-</div>
+<div id="message">YÊU EM NHIỀU LẮM 💖</div>
 
 <audio id="music" loop>
   <source src="song.mp3">
@@ -146,79 +87,80 @@ EM CÓ YÊU ANH KHÔNG?
 
 <script>
 
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
-const message = document.getElementById("message");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const msg = document.getElementById("message");
 const music = document.getElementById("music");
 
 const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
 const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
 
 /* nút chạy */
-noBtn.addEventListener("mouseover", () => {
-  noBtn.style.left = Math.random()*80 + "vw";
-  noBtn.style.top = Math.random()*80 + "vh";
-});
+no.onmouseover = () => {
+  no.style.left = Math.random()*80 + "vw";
+  no.style.top = Math.random()*80 + "vh";
+};
 
-/* bấm có */
-yesBtn.addEventListener("click", () => {
-  message.style.display = "block";
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
+/* bấm yes */
+yes.onclick = () => {
+  msg.style.display = "block";
+  yes.style.display = "none";
+  no.style.display = "none";
 
   music.play();
-  createHearts();
-  rainHearts();
-});
 
-/* TIM LỚN */
-function createHearts(){
+  setInterval(createHeart, 600);
+  setInterval(rainHeart, 200);
+};
 
-  setInterval(() => {
+/* SVG TIM CHUẨN */
+function createHeart(){
 
-    const heart = document.createElement("div");
-    heart.className = "heart";
+  const div = document.createElement("div");
+  div.className = "heart";
+  div.style.left = Math.random()*100 + "vw";
+  div.style.bottom = "-150px";
 
-    heart.style.left = Math.random()*100 + "vw";
-    heart.style.bottom = "-150px";
+  const isVideo = Math.random() > 0.5;
 
-    const isVideo = Math.random() > 0.5;
+  div.innerHTML = `
+  <svg viewBox="0 0 200 200" width="140" height="140">
+    <defs>
+      <clipPath id="clip">
+        <path d="M100 180 C20 120, 0 60, 50 30 C80 10,100 40,100 40 C100 40,120 10,150 30 C200 60,180 120,100 180 Z"/>
+      </clipPath>
+    </defs>
 
-    const media = document.createElement(isVideo ? "video" : "img");
+    ${
+      isVideo
+      ? `<foreignObject width="200" height="200" clip-path="url(#clip)">
+          <video src="${videos[Math.floor(Math.random()*videos.length)]}"
+          autoplay loop muted playsinline
+          style="width:100%;height:100%;object-fit:cover;"></video>
+        </foreignObject>`
+      : `<foreignObject width="200" height="200" clip-path="url(#clip)">
+          <img src="${images[Math.floor(Math.random()*images.length)]}"
+          style="width:100%;height:100%;object-fit:cover;">
+        </foreignObject>`
+    }
 
-    media.src = isVideo
-      ? videos[Math.floor(Math.random()*videos.length)]
-      : images[Math.floor(Math.random()*images.length)];
+  </svg>
+  `;
 
-    media.autoplay = true;
-    media.loop = true;
-    media.muted = true;
-    media.playsInline = true;
+  document.body.appendChild(div);
 
-    heart.appendChild(media);
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 10000);
-
-  }, 700);
+  setTimeout(()=>div.remove(),10000);
 }
 
-/* TIM NHỎ MƯA */
-function rainHearts(){
+/* mưa tim */
+function rainHeart(){
 
-  setInterval(() => {
+  const r = document.createElement("div");
+  r.className = "rain";
+  r.style.left = Math.random()*100 + "vw";
+  document.body.appendChild(r);
 
-    const h = document.createElement("div");
-    h.className = "rain-heart";
-
-    h.style.left = Math.random()*100 + "vw";
-
-    document.body.appendChild(h);
-
-    setTimeout(() => h.remove(), 6000);
-
-  }, 200);
-
+  setTimeout(()=>r.remove(),6000);
 }
 
 </script>
