@@ -25,7 +25,6 @@ body{
   position:relative;
 }
 
-/* TEXT */
 h1{
   text-align:center;
   color:#ff2e63;
@@ -58,33 +57,26 @@ button{
   text-align:center;
 }
 
-/* ================= TIM ================= */
+/* ================= TIM LỚN ================= */
 
 .heart{
   position:absolute;
-  width:120px;
-  height:120px;
-  background:#ff2d55;
-  transform:rotate(-45deg);
+  width:140px;
+  height:140px;
   animation:float 10s linear forwards;
-  overflow:hidden;
 }
 
-/* 2 nửa tim */
-.heart::before,
-.heart::after{
+/* hình trái tim SVG nền */
+.heart::before{
   content:"";
   position:absolute;
-  width:120px;
-  height:120px;
+  width:140px;
+  height:140px;
   background:#ff2d55;
-  border-radius:50%;
+  clip-path:path("M70 20 C50 0, 0 20, 20 60 C40 100, 70 120, 70 120 C70 120, 100 100, 120 60 C140 20, 90 0, 70 20 Z");
 }
 
-.heart::before{top:-60px;left:0;}
-.heart::after{left:60px;top:0;}
-
-/* MEDIA TRONG TIM (QUAN TRỌNG) */
+/* MEDIA TRONG TIM */
 .heart img,
 .heart video{
   position:absolute;
@@ -92,19 +84,10 @@ button{
   height:100%;
   object-fit:cover;
 
-  /* QUAN TRỌNG: mask hình trái tim */
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><path d='M50 90 L15 55 C5 40 10 20 30 20 C40 20 45 25 50 30 C55 25 60 20 70 20 C90 20 95 40 85 55 Z' fill='black'/></svg>");
-  
-  mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><path d='M50 90 L15 55 C5 40 10 20 30 20 C40 20 45 25 50 30 C55 25 60 20 70 20 C90 20 95 40 85 55 Z' fill='black'/></svg>");
-
-  -webkit-mask-repeat:no-repeat;
-  mask-repeat:no-repeat;
-
-  -webkit-mask-size:100% 100%;
-  mask-size:100% 100%;
+  clip-path:path("M70 20 C50 0, 0 20, 20 60 C40 100, 70 120, 70 120 C70 120, 100 100, 120 60 C140 20, 90 0, 70 20 Z");
 }
 
-/* ================= TIM MƯA NHỎ ================= */
+/* ================= TIM NHỎ MƯA ================= */
 
 .rain-heart{
   position:absolute;
@@ -112,38 +95,25 @@ button{
   width:14px;
   height:14px;
   background:#ff69b4;
-  transform:rotate(45deg);
-  opacity:0.8;
+  clip-path:path("M7 0 C3 0, 0 3, 0 7 C0 11, 7 14, 7 14 C7 14, 14 11, 14 7 C14 3, 11 0, 7 0 Z");
   animation:fall 6s linear forwards;
+  opacity:0.8;
 }
-
-.rain-heart::before,
-.rain-heart::after{
-  content:"";
-  position:absolute;
-  width:14px;
-  height:14px;
-  background:#ff69b4;
-  border-radius:50%;
-}
-
-.rain-heart::before{top:-7px;left:0;}
-.rain-heart::after{left:7px;top:0;}
 
 @keyframes fall{
-  0%{transform:translateY(0) rotate(45deg);opacity:1;}
-  100%{transform:translateY(120vh) rotate(45deg);opacity:0;}
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(120vh);opacity:0;}
 }
 
-/* TIM BAY */
+/* BAY TIM */
 @keyframes float{
   0%{
-    transform:translateY(0) rotate(-45deg) scale(.5);
+    transform:translateY(0) scale(.5);
     opacity:0;
   }
   10%{opacity:1;}
   100%{
-    transform:translateY(-120vh) rotate(-45deg) scale(1.2);
+    transform:translateY(-120vh) scale(1.2);
     opacity:0;
   }
 }
@@ -184,64 +154,62 @@ const music = document.getElementById("music");
 const images = ["1.jpg","2.jpg","3.jpg","4.jpg"];
 const videos = ["1.mp4","2.mp4","3.mp4","4.mp4"];
 
-/* NÚT KHÔNG CHẠY */
+/* nút chạy */
 noBtn.addEventListener("mouseover", () => {
   noBtn.style.left = Math.random()*80 + "vw";
   noBtn.style.top = Math.random()*80 + "vh";
 });
 
-/* NHẤN CÓ */
+/* bấm có */
 yesBtn.addEventListener("click", () => {
   message.style.display = "block";
   yesBtn.style.display = "none";
   noBtn.style.display = "none";
 
   music.play();
-
   createHearts();
   rainHearts();
 });
 
-/* TIM LỚN BAY */
+/* TIM LỚN */
 function createHearts(){
 
   setInterval(() => {
 
     const heart = document.createElement("div");
-    heart.classList.add("heart");
+    heart.className = "heart";
 
     heart.style.left = Math.random()*100 + "vw";
-    heart.style.bottom = "-120px";
+    heart.style.bottom = "-150px";
 
     const isVideo = Math.random() > 0.5;
 
-    if(isVideo){
-      const video = document.createElement("video");
-      video.src = videos[Math.floor(Math.random()*videos.length)];
-      video.autoplay = true;
-      video.loop = true;
-      video.muted = true;
-      video.playsInline = true;
-      heart.appendChild(video);
-    } else {
-      const img = document.createElement("img");
-      img.src = images[Math.floor(Math.random()*images.length)];
-      heart.appendChild(img);
-    }
+    const media = document.createElement(isVideo ? "video" : "img");
 
+    media.src = isVideo
+      ? videos[Math.floor(Math.random()*videos.length)]
+      : images[Math.floor(Math.random()*images.length)];
+
+    media.autoplay = true;
+    media.loop = true;
+    media.muted = true;
+    media.playsInline = true;
+
+    heart.appendChild(media);
     document.body.appendChild(heart);
+
     setTimeout(() => heart.remove(), 10000);
 
   }, 700);
 }
 
-/* TIM MƯA NHỎ */
+/* TIM NHỎ MƯA */
 function rainHearts(){
 
   setInterval(() => {
 
     const h = document.createElement("div");
-    h.classList.add("rain-heart");
+    h.className = "rain-heart";
 
     h.style.left = Math.random()*100 + "vw";
 
